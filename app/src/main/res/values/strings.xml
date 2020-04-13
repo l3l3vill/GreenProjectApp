@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">GreenProjectApp</string>
+
+    <!-- LogIn and SingUp -->
+    <string name="email">Email</string>
+    <string name="password_signup">Mot de passe (8 caractères min.)</string>
+    <string name="password_sigin">Mot de passe</string>
+    <string name="verify_password">Confirmez le mot de passe</string>
+    <string name="sign_up">Inscription</string>
+    <string name="i_already_have_an_account">J\'ai déjà un compte</string>
+    <string name="sign_in">Se conecter</string>
+    <string name="or_sign_up_with">Se connecter avec</string>
+    <string name="i_forgot_pasword">Mot de passe oublié ?</string>
+    <string name="i_forgot_pasword_email">Email</string>
+    <string name="log_in">Se connecter</string>
+    <string name="name">Prénom</string>
+    <string name="last_name">Nom</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

@@ -11,4 +11,13 @@
     <style name="SplashThene" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
 
+    <style name="button_style" >
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:fontFamily">@font/averia_sans_libre</item>
+        <item name="android:background">@drawable/white_border_button</item>
+
+    </style>
+
+
 </resources>

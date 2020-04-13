@@ -2,5 +2,16 @@
 <resources>
     <color name="colorPrimary">#09af00</color> <!--The color displayed most frequently across your app’s screens and components. This color should pass accessibilty guidelines for text / iconography when drawn on top of the surface or background color.-->
     <color name="colorPrimaryDark">#61d800</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#008000</color>
+
+    <color name="green_primary">#61d800</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="green_transparent">#AD61D800</color>
+
+
 </resources>
