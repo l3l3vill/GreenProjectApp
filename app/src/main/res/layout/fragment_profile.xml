@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Fragments.ProfileFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+
+                >
+
+                <ImageView
+                    android:id="@+id/iv_profile_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="false"
+                    android:cropToPadding="false"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/green_transparent_background"/>
+
+                <ImageView
+                    android:id="@+id/iv_profile_photo"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    app:srcCompat="@drawable/camera" />
+
+                <ImageView
+                    android:id="@+id/sign_out"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_exit_to_app_black_24dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                </ImageView>
+
+
+                <TextView
+                    android:id="@+id/name_profile"
+                    style="@style/text_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="25dp"
+                    android:text="@string/dummy_text" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/user_information"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+
+                    <EditText
+                        android:id="@+id/t_name"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
+                        android:hint="@string/name"
+                        android:background="@drawable/lightgrey_round_background"/>
+
+                    <EditText
+                        android:id="@+id/t_last_name"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
+                        android:hint="@string/last_name"
+                        android:background="@drawable/lightgrey_round_background"/>
+
+                    <EditText
+                        android:id="@+id/t_birth"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
+                        android:hint="@string/birth_date"
+                        android:background="@drawable/lightgrey_round_background"
+                        android:inputType="date"/>
+
+                    <TextView
+                        android:id="@+id/t_email"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
+                        android:hint="@string/email"
+                        android:background="@drawable/lightgrey_round_background"
+                        android:inputType="textEmailAddress"/>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/address"
+                        />
+                    <EditText
+                        android:id="@+id/t_address"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:hint="@string/street_name"
+                        android:background="@drawable/lightgrey_round_background"
+                        />
+                    <EditText
+                        android:inputType="number"
+                        android:id="@+id/t_postale_code"
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:hint="@string/post_code"
+                        android:background="@drawable/lightgrey_round_background"/>
+
+                    <EditText
+                        android:id="@+id/t_city"
+                        android:padding="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:hint="@string/city_name"
+                        android:background="@drawable/lightgrey_round_background"/>
+                    <EditText
+                        android:id="@+id/t_country"
+                        android:padding="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp"
+                        style="@style/text_gray"
+                        android:textSize="18sp"
+                        android:hint="@string/country"
+                        android:background="@drawable/lightgrey_round_background"/>
+
+                    <Button
+                        android:id="@+id/btn_update_user_information"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/update"
+                        style="@style/button_green_style"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:textAllCaps="false"
+                        >
+
+                    </Button>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="-20dp"
+        android:gravity="center"
+        android:text="@string/made_with_love" />
+
+    </LinearLayout>
+</layout>

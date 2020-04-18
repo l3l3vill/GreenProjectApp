@@ -18,11 +18,15 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.ideasfactory.greenprojectapp.MainActivity
 
 import com.ideasfactory.greenprojectapp.R
 import com.ideasfactory.greenprojectapp.databinding.FragmentSignUpBinding
+import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.HashMap
 
 /**
  * A simple [Fragment] subclass.
@@ -44,6 +48,10 @@ class SignUpFragment : Fragment() {
     //fireBaseAuth
     private lateinit var auth: FirebaseAuth
 
+    //FirestoreInstanse
+    private lateinit var fbStore : FirebaseFirestore
+    private lateinit var userId : String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,6 +68,9 @@ class SignUpFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
+        fbStore = FirebaseFirestore.getInstance()
+
+
         signUp.setOnClickListener {
             signUpUser()
         }
@@ -69,6 +80,7 @@ class SignUpFragment : Fragment() {
         }
 
         return binding.root
+
     }
 
 
@@ -80,6 +92,7 @@ class SignUpFragment : Fragment() {
         val verifyPasswordInput : String = verifyPasword.text.toString()
         val nameInput : String = nameUser.text.toString()
         val lastNameInput : String = lastNameUser.text.toString()
+
 
         if (nameInput.isEmpty()) {
             nameUser.error = "Entrez votre prenom"
@@ -121,6 +134,8 @@ class SignUpFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful ) {
                     val user = auth.currentUser
+                    val profileUpdates_name : UserProfileChangeRequest = UserProfileChangeRequest.Builder().setDisplayName(nameInput).build()
+                    user?.updateProfile(profileUpdates_name)
                     user?.sendEmailVerification()
                         ?.addOnCompleteListener { task ->
                             if (task.isSuccessful) {
@@ -128,6 +143,22 @@ class SignUpFragment : Fragment() {
                                     requireContext(), "Authentification reussie",
                                     Toast.LENGTH_SHORT
                                 ).show()
+
+                                //Here we are creating the collection "users". we haven't created yet, so whit this variable we are creating it.
+                                //also we are inserted the documment taking de id provided by auth.
+                                userId = auth.currentUser!!.uid
+                                val documentReference = fbStore.collection("users").document(userId)
+                                //to fill the document with the user data, whe create a Map <Key, variable> (the key is the name that will appear in fireStore, value is the information user writes)
+                                var userInformation  = HashMap<String, Any>()
+                                userInformation.put("UserName",nameInput )
+                                userInformation.put("UserLastName", lastNameInput)
+                                userInformation.put ("UserEmail", emailIntput)
+
+                                documentReference.set(userInformation).addOnCompleteListener {
+                                    if(task.isSuccessful){
+                                        Log.i("SUGNUP","onSuccess: userInformation is created for $userId ")
+                                    }
+                                }
                                 startActivity(Intent(requireContext(), MainActivity::class.java))
 
                             }
@@ -145,7 +176,12 @@ class SignUpFragment : Fragment() {
         super.onSaveInstanceState(outState)
         val emailIntput: String = email.text.toString()
         outState.putString(EMAIL_KEY, emailIntput )
+
+
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
 
 }

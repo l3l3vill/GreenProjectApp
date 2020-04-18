@@ -21,6 +21,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -39,6 +40,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.firebase:firebase-firestore:17.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -52,6 +54,24 @@ dependencies {
     //Material Design
     def material_version = "1.2.0-alpha02"
     implementation "com.google.android.material:material:${material_version}"
+
+    //Glide FirebaseUI Storage only
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'jp.wasabeef:glide-transformations:4.0.0'
+    //kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
+    //CardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    //RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    //CountryPicker
+        implementation 'com.hbb20:ccp:2.3.8'
+
+    //fix the error caused when firestore is added : Error:Cannot fit requested classes in a single dex file.Try supplying a main-dex list. # methods: 72477 > 65536
+    //that is because methods than has libraries as Firebase, has already a bunch of methods that full the default space for this methods. so it creates a multidesk stuf for save this big amounth of methods
+    implementation 'com.android.support:multidex:1.0.3'
 
 
 }
