@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.ExploreFragment">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center">
+    <ImageView
+        android:id="@+id/iv_fruits"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/fruitscolor"
+        android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            style="@style/text_gray"
+            android:textSize="30sp"
+            android:text="@string/fruits_explore"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/averia_sans_libre">
+
+        </TextView>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/iv_vegetables"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/vegetablecolor"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            style="@style/text_gray"
+            android:textSize="30sp"
+            android:text="@string/vegetables_explore"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/averia_sans_libre">
+
+        </TextView>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/iv_herbs"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/herbscolorok"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            style="@style/text_gray"
+            android:textSize="30sp"
+            android:text="@string/herbes_explore"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/averia_sans_libre">
+
+        </TextView>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+</layout>

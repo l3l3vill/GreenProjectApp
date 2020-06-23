@@ -1,4 +1,4 @@
-package com.ideasfactory.greenprojectapp.Fragments
+package com.ideasfactory.greenprojectapp.fragments
 
 
 import android.os.Bundle
@@ -12,15 +12,14 @@ import com.ideasfactory.greenprojectapp.R
 /**
  * A simple [Fragment] subclass.
  */
-class MainScreenFragment : Fragment() {
-
+class HerbsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_screen, container, false)
+        return inflater.inflate(R.layout.fragment_herbs, container, false)
     }
 
 

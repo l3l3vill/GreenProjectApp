@@ -10,29 +10,40 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ideasfactory.greenprojectapp.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding : ActivityMainBinding
-    lateinit var goToProfile : ImageView
+    lateinit var bottomNav : BottomNavigationView
+    lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-        goToProfile = binding.ivGoToProfile
+        bottomNav = binding.bottomNavigation
+        navController = Navigation.findNavController(this,R.id.nav_host_main)
 
-        goToProfile.setOnClickListener(this)
+
+        bottomNav.setupWithNavController(navController)
 
 
+
+
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController,null)
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
-            R.id.iv_go_to_profile -> this.findNavController(R.id.nav_host_main).navigate(R.id.action_mainScreenFragment_to_profileFragment)
-        }
+        TODO("Not yet implemented")
     }
-
-
 }

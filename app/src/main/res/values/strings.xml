@@ -23,11 +23,19 @@
     <string name="city_name">Ville</string>
     <string name="country">Pays</string>
     <string name="user_information">Mes informations</string>
-    <string name="made_with_love">Fait avec ❤ by HousePlanter</string>
+    <string name="made_with_love">Fait avec ❤ by HomePlanter. PlanterIn</string>
     <string name="update">Mettre à jour</string>
+    <string name="home_bottom_nav">home</string>
+    <string name="profile_bottom_nav">profile</string>
+    <string name="explore_bottom_nav">explore</string>
+    <string name="permission_denied">Autorisations refusées</string>
 
-
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="plant_description">description de la plante</string>
+    <string name="fruits_explore">Des fruits</string>
+    <string name="vegetables_explore">Des légumes</string>
+    <string name="herbes_explore">Des herbes</string>
 
 
 </resources>

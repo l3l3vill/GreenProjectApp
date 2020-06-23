@@ -1,4 +1,4 @@
-package com.ideasfactory.greenprojectapp.Fragments
+package com.ideasfactory.greenprojectapp.fragments
 
 
 import android.app.AlertDialog
@@ -11,14 +11,11 @@ import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.ideasfactory.greenprojectapp.MainActivity
 
 import com.ideasfactory.greenprojectapp.R
@@ -36,6 +33,8 @@ class SignInFragment : Fragment() {
     lateinit var password : EditText
     lateinit var signIn: Button
     lateinit var forgotPassword : Button
+    lateinit var progressBar: ProgressBar
+
 
 
     override fun onCreateView(
@@ -49,6 +48,7 @@ class SignInFragment : Fragment() {
         password = binding.etPassword
         signIn = binding.btnSignIn
         forgotPassword = binding.forgotPasword
+        progressBar = binding.progressSignIn
 
         signIn.setOnClickListener {
             sigInUser()
@@ -68,25 +68,28 @@ class SignInFragment : Fragment() {
         val passwordInput : String = password.text.toString()
 
 
+
+
         if (emailIntput.isEmpty()) {
-            email.error = "Entre ton email"
+            email.error = "Entrez votre email"
             email.requestFocus()
             return
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(emailIntput).matches()) {
-            email.error = "Entre un email valide"
+            email.error = "Entrez un email valide"
             email.requestFocus()
             return
 
         }
 
         if(passwordInput.isEmpty() || passwordInput.length < 8 ){
-            password.error = "Entre un mot de passe avec au moins 8 caractères"
+            password.error = "Entrez votre mot de passe"
             password.requestFocus()
             return
         }
 
+        progressBar.visibility = VISIBLE
         auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){

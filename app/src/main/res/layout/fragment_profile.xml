@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Fragments.ProfileFragment">
+    tools:context=".fragments.ProfileFragment">
 
     <LinearLayout
         android:orientation="vertical"
@@ -12,7 +12,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
         android:background="@color/white">
 
         <LinearLayout
@@ -35,6 +34,15 @@
                     android:scaleType="centerCrop"
                     android:background="@drawable/green_transparent_background"/>
 
+                <TextView
+                    android:id="@+id/name_profile"
+                    style="@style/text_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="25dp"
+                    android:text="@string/dummy_text" />
+
                 <ImageView
                     android:id="@+id/iv_profile_photo"
                     android:layout_width="150dp"
@@ -56,15 +64,6 @@
 
                 </ImageView>
 
-
-                <TextView
-                    android:id="@+id/name_profile"
-                    style="@style/text_white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="25dp"
-                    android:text="@string/dummy_text" />
 
             </FrameLayout>
 
@@ -214,6 +213,12 @@
                         >
 
                     </Button>
+                    <TextView
+                        android:id="@+id/made_with_love"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:gravity="center"
+                        android:text="@string/made_with_love" />
 
 
                 </LinearLayout>
@@ -222,14 +227,7 @@
 
     </ScrollView>
 
-    <TextView
 
-        android:id="@+id/textView8"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="-20dp"
-        android:gravity="center"
-        android:text="@string/made_with_love" />
 
     </LinearLayout>
 </layout>

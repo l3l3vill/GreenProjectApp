@@ -1,7 +1,10 @@
-package com.ideasfactory.greenprojectapp.Fragments
+package com.ideasfactory.greenprojectapp.fragments
 
 
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,17 +13,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.google.android.gms.tasks.OnCompleteListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.ideasfactory.greenprojectapp.LogInActivity
-import com.ideasfactory.greenprojectapp.MainActivity
 import com.ideasfactory.greenprojectapp.R
 import com.ideasfactory.greenprojectapp.databinding.FragmentProfileBinding
+import jp.wasabeef.glide.transformations.BlurTransformation
 import java.util.*
 
 
@@ -47,6 +52,9 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     lateinit var noteListener : ListenerRegistration
 
 
+
+
+
     //FirestoreInstanse
     private lateinit var fbStore : FirebaseFirestore
     lateinit var docRef : DocumentReference
@@ -55,7 +63,10 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
     private val TAG = "PROFILEFRAGMENT"
 
-
+    companion object{
+        private val IMAGE_PICK_CODE = 1000
+        private val PERMISSION_CODE = 1001
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,35 +94,79 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         docRef = fbStore.collection("users").document(userId)
         binding.btnUpdateUserInformation.setOnClickListener(this)
         binding.signOut.setOnClickListener(this)
+        binding.ivProfilePhoto.setOnClickListener(this)
         setBirthdayEditText()
 
-        val emailUserAuth: String? = FirebaseAuth.getInstance().currentUser!!.email
 
-
-        //todo -> when image profile is taken from the user or fb or google, set URL inside glide to upload. don't delete this code
-        /*---------------------------DON'T DELETE-------------------------------------------------------------------------------
-        Glide.with(this)
-            .load("https://avatars1.githubusercontent.com/u/42851409?s=400&u=e985d0bce8c916727f92b47467128d504f433220&v=4")
-            .circleCrop()
-        .into(profilePhoto)
-
-
-        Glide.with(this)
-            .load("https://avatars1.githubusercontent.com/u/42851409?s=400&u=e985d0bce8c916727f92b47467128d504f433220&v=4")
-            .apply(bitmapTransform(BlurTransformation(400)))
-            .into(backgroundProfile)
------------------------------------------DON'T DELETE--------------------------------------------------------------------------*/
-
-        userEmail.setHint(emailUserAuth)
-
-        loadUserInformation()
+        profilePhoto.setOnClickListener {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if(ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED){
+                    //permision denied
+                    val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    //show pop up to request runtime permission
+                    requestPermissions(permissions, PERMISSION_CODE)
+                }else{
+                    //permission already garanted
+                    pickImageFromGalery()
+                }
+            }else{
+                pickImageFromGalery()
+            }
+        }
         return binding.root
 
 
     }
 
+    private fun pickImageFromGalery() {
+        //INTENT TO PICK IMAGE
+        val intent = Intent (Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode){
+            PERMISSION_CODE->{
+                if (grantResults.size>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    //permision from popup granted
+                    pickImageFromGalery()
+                }else{
+                    Toast.makeText(requireContext(), R.string.permission_denied, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE ){
+            //profilePhoto.setImageURI(data?.data)
+           Glide.with(this)
+                .load(data?.data)
+                .circleCrop()
+                .into(profilePhoto)
+
+            Glide.with(this)
+                .load(data?.data)
+                .apply(bitmapTransform(BlurTransformation(400)))
+                .into(backgroundProfile)
+
+            //storage -> todo : Ver los métodos de Yacine para completar. pero primero instruirse en lo que es FireStorage.
+
+
+
+        }
+    }
+
     override fun onStart() {
         super.onStart()
+        val emailUserAuth: String? = FirebaseAuth.getInstance().currentUser!!.email
+        userEmail.setHint(emailUserAuth)
         noteListener =  docRef.addSnapshotListener {  documentSnapshot, firebaseFirestoreException ->
             if (firebaseFirestoreException != null) {
                 //Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
@@ -119,15 +174,17 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             }
             if (documentSnapshot!!.exists()) {
                 Log.d(TAG, "DocumentSnapshot data: ${documentSnapshot.data}")
-                userName.setText(documentSnapshot.getString("UserName"))
-                userLastName.setText(documentSnapshot.getString("UserLastName"))
-                userBirth.setText(documentSnapshot.getString("UserBirth"))
-                userAddress.setText(documentSnapshot.getString("UserAddress"))
-                userPostalCode.setText(documentSnapshot.getString("UserPostalCode"))
-                userAddress.setText(documentSnapshot.getString("UserAddress"))
-                userCity.setText(documentSnapshot.getString("UserCity"))
-                userCountry.setText(documentSnapshot.getString("UserCountry"))
-                userNameProfile.setText(documentSnapshot.getString("UserName"))
+                userName.setText(documentSnapshot.getString("userFirstName"))
+                userLastName.setText(documentSnapshot.getString("userLastName"))
+                userBirth.setText(documentSnapshot.getString("userBirth"))
+                userAddress.setText(documentSnapshot.getString("userAddress"))
+                userPostalCode.setText(documentSnapshot.getString("userPostalCode"))
+                userAddress.setText(documentSnapshot.getString("userAddress"))
+                userCity.setText(documentSnapshot.getString("userCity"))
+                userCountry.setText(documentSnapshot.getString("userCountry"))
+                userNameProfile.setText(documentSnapshot.getString("userFirstName"))
+
+
             }
         }
     }
@@ -135,9 +192,10 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.btn_update_user_information -> {
-                saveUserInformation()
+                //saveUserInformation()
                 updateUserInformation()
                 loadUserInformation()
+                Toast.makeText(requireContext(), "Mise à jour réussie", Toast.LENGTH_SHORT).show()
             }
             R.id.sign_out -> {
                 auth.signOut()
@@ -150,6 +208,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
     private fun saveUserInformation(){
 
+        val emailUserAuth: String? = FirebaseAuth.getInstance().currentUser!!.email
+        userEmail.setHint(emailUserAuth)
         val userNameInput = userName.text.toString()
         val userLastNameInput = userLastName.text.toString()
         val userBirthInput = userBirth.text.toString()
@@ -157,21 +217,27 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         val userPostalCodeInput = userPostalCode.text.toString()
         val userCityInput = userCity.text.toString()
         val userCountryInput = userCountry.text.toString()
+        val userEmail = userEmail.text.toString()
         val documentReference = fbStore.collection("users").document(userId)
+
         //to fill the document with the user data, whe create a Map <Key, variable> (the key is the name that will appear in fireStore, value is the information user writes)
         var userInformation  = HashMap<String, Any>()
-        userInformation.put("UserName",userNameInput)
-        userInformation.put("UserLastName",userLastNameInput)
-        userInformation.put("UserBirth",userBirthInput)
-        userInformation.put("UserAddress", userAddresInput)
-        userInformation.put ("UserPostalCode", userPostalCodeInput)
-        userInformation.put ("UserCity", userCityInput)
-        userInformation.put ("UserCountry", userCountryInput)
+        userInformation.put("userFirstName",userNameInput)
+        userInformation.put("userLastName",userLastNameInput)
+        userInformation.put("userBirth",userBirthInput)
+        userInformation.put("userAddress", userAddresInput)
+        userInformation.put ("userPostalCode", userPostalCodeInput)
+        userInformation.put ("userCity", userCityInput)
+        userInformation.put ("userCountry", userCountryInput)
+        userInformation.put("userEmail", emailUserAuth!!)
         documentReference.set(userInformation)
 
     }
 
     fun updateUserInformation(){
+        val emailUserAuth: String? = FirebaseAuth.getInstance().currentUser!!.email
+        userEmail.setHint(emailUserAuth)
+
         val userNameInput = userName.text.toString()
         val userLastNameInput = userLastName.text.toString()
         val userBirthInput = userBirth.text.toString()
@@ -179,13 +245,15 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         val userPostalCodeInput = userPostalCode.text.toString()
         val userCityInput = userCity.text.toString()
         val userCountryInput = userCountry.text.toString()
-        docRef.update("UserName",userNameInput)
-        docRef.update("UserLastName",userLastNameInput)
-        docRef.update("UserBirth",userBirthInput)
-        docRef.update("UserAddress",userAddresInput)
-        docRef.update("UserPostalCode",userPostalCodeInput)
-        docRef.update("UserCity",userCityInput)
-        docRef.update("UserCountry",userCountryInput)
+        val userEmail = userEmail.text.toString()
+        docRef.update("userFirstName",userNameInput)
+        docRef.update("userLastName",userLastNameInput)
+        docRef.update("userBirth",userBirthInput)
+        docRef.update("userAddress",userAddresInput)
+        docRef.update("userPostalCode",userPostalCodeInput)
+        docRef.update("userCity",userCityInput)
+        docRef.update("userCountry",userCountryInput)
+        docRef.update("userEmail",emailUserAuth!!)
     }
 
 
@@ -194,15 +262,16 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                    userName.setText(document.getString("UserName"))
-                    userLastName.setText(document.getString("UserLastName"))
-                    userBirth.setText(document.getString("UserBirth"))
-                    userAddress.setText(document.getString("UserAddress"))
-                    userPostalCode.setText(document.getString("UserPostalCode"))
-                    userAddress.setText(document.getString("UserAddress"))
-                    userCity.setText(document.getString("UserCity"))
-                    userCountry.setText(document.getString("UserCountry"))
-                    userNameProfile.setText(document.getString("UserName"))
+                    userName.setText(document.getString("userFirstName"))
+                    userLastName.setText(document.getString("userLastName"))
+                    userBirth.setText(document.getString("userBirth"))
+                    userAddress.setText(document.getString("userAddress"))
+                    userPostalCode.setText(document.getString("userPostalCode"))
+                    userAddress.setText(document.getString("userAddress"))
+                    userCity.setText(document.getString("userCity"))
+                    userCountry.setText(document.getString("userCountry"))
+                    userNameProfile.setText(document.getString("userName"))
+                    //userEmail.setText(document.getString("userEmail"))
 
                 } else {
                     Log.d(TAG, "No such document")
@@ -284,6 +353,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         })
 
     }
+
 
     override fun onStop() {
         super.onStop()

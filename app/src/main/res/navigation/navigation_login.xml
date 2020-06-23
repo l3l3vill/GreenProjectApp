@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.ideasfactory.greenprojectapp.Fragments.SignUpFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.ideasfactory.greenprojectapp.Fragments.SignInFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.ideasfactory.greenprojectapp.Fragments.LogInFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.LogInFragment"
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in" >
         <action

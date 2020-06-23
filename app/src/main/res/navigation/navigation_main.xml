@@ -3,20 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/mainScreenFragment">
+    app:startDestination="@id/exploreFragment">
 
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="com.ideasfactory.greenprojectapp.Fragments.MainScreenFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.HomeFragment"
         android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_main_screen" >
-        <action
-            android:id="@+id/action_mainScreenFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.ideasfactory.greenprojectapp.Fragments.ProfileFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/fruitsFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.FruitsFragment"
+        android:label="fragment_garden"
+        tools:layout="@layout/fragment_fruits" />
+    <fragment
+        android:id="@+id/exploreFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.ExploreFragment"
+        android:label="fragment_explore"
+        tools:layout="@layout/fragment_explore" >
+        <action
+            android:id="@+id/action_exploreFragment_to_fruitsFragment"
+            app:destination="@id/fruitsFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_herbsFragment"
+            app:destination="@id/herbsFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_vegetablesFragment"
+            app:destination="@id/vegetablesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/herbsFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.HerbsFragment"
+        android:label="fragment_herbs"
+        tools:layout="@layout/fragment_herbs" />
+    <fragment
+        android:id="@+id/vegetablesFragment"
+        android:name="com.ideasfactory.greenprojectapp.fragments.VegetablesFragment"
+        android:label="fragment_vegetables"
+        tools:layout="@layout/fragment_vegetables" />
+
 </navigation>

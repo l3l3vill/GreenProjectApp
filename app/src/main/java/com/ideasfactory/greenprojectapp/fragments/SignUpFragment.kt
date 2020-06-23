@@ -1,7 +1,6 @@
-package com.ideasfactory.greenprojectapp.Fragments
+package com.ideasfactory.greenprojectapp.fragments
 
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,21 +11,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ideasfactory.greenprojectapp.MainActivity
+import com.ideasfactory.greenprojectapp.model.User
 
 import com.ideasfactory.greenprojectapp.R
 import com.ideasfactory.greenprojectapp.databinding.FragmentSignUpBinding
-import java.util.*
 import java.util.regex.Pattern
-import kotlin.collections.HashMap
 
 /**
  * A simple [Fragment] subclass.
@@ -44,6 +40,7 @@ class SignUpFragment : Fragment() {
     lateinit var signUp: Button
     lateinit var nameUser : EditText
     lateinit var lastNameUser : EditText
+    lateinit var progressBar : ProgressBar
 
     //fireBaseAuth
     private lateinit var auth: FirebaseAuth
@@ -65,6 +62,7 @@ class SignUpFragment : Fragment() {
         signUp = binding.btnSignUp
         nameUser = binding.etPrenom
         lastNameUser = binding.etNom
+        progressBar = binding.progressSignUp
 
         auth = FirebaseAuth.getInstance()
 
@@ -130,6 +128,8 @@ class SignUpFragment : Fragment() {
             return
         }
 
+        progressBar.visibility = View.VISIBLE
+
         auth.createUserWithEmailAndPassword(emailIntput, passwordInput)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful ) {
@@ -149,12 +149,15 @@ class SignUpFragment : Fragment() {
                                 userId = auth.currentUser!!.uid
                                 val documentReference = fbStore.collection("users").document(userId)
                                 //to fill the document with the user data, whe create a Map <Key, variable> (the key is the name that will appear in fireStore, value is the information user writes)
-                                var userInformation  = HashMap<String, Any>()
+
+                                var user : User = User(nameInput,lastNameInput,"",emailIntput,"","","","")
+
+                   /*             var userInformation  = HashMap<String, Any>()
                                 userInformation.put("UserName",nameInput )
                                 userInformation.put("UserLastName", lastNameInput)
-                                userInformation.put ("UserEmail", emailIntput)
+                                userInformation.put ("UserEmail", emailIntput)*/
 
-                                documentReference.set(userInformation).addOnCompleteListener {
+                                documentReference.set(user).addOnCompleteListener {
                                     if(task.isSuccessful){
                                         Log.i("SUGNUP","onSuccess: userInformation is created for $userId ")
                                     }

@@ -1,9 +1,14 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+
+//groupie RecyclerViwe
+androidExtensions {
+    experimental = true
+}
 
 
 android {
@@ -12,7 +17,9 @@ android {
     dataBinding {
         //noinspection DataBindingWithoutKapt
         enabled = true
+
     }
+
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.ideasfactory.greenprojectapp"
@@ -22,12 +29,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    //after anotation in dataclass
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+
     }
 }
 
@@ -58,20 +72,83 @@ dependencies {
     //Glide FirebaseUI Storage only
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.0'
+
     //kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // Lifecycle components
+    def archLifecycleVersion = '1.1.1'
+    implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
 
     //CardView
     implementation 'androidx.cardview:cardview:1.0.0'
+
 
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     //CountryPicker
-        implementation 'com.hbb20:ccp:2.3.8'
+    implementation 'com.hbb20:ccp:2.3.8'
 
     //fix the error caused when firestore is added : Error:Cannot fit requested classes in a single dex file.Try supplying a main-dex list. # methods: 72477 > 65536
     //that is because methods than has libraries as Firebase, has already a bunch of methods that full the default space for this methods. so it creates a multidesk stuf for save this big amounth of methods
     implementation 'com.android.support:multidex:1.0.3'
+
+    //groupie RecyclerViwe
+    implementation 'com.xwray:groupie:2.3.0'
+    implementation 'com.xwray:groupie-kotlin-android-extensions:2.3.0'
+
+    def version_retrofit = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit: $version_retrofit"
+    implementation "com.squareup.retrofit2:converter-scalars:$version_retrofit"
+    implementation 'androidx.room:room-runtime:2.1.0'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0'
+
+    // Testing
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    //Lifecycle
+
+    def lifecycle_version = "2.2.0"
+    def arch_version = "2.1.0"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+
+    // Annotation processor
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    // alternately - if using Java8, use the following instead of lifecycle-compiler
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    // optional - helpers for implementing LifecycleOwner in a Service
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+
+    // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
+    implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
+
+    // optional - ReactiveStreams support for LiveData
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
+
+    // optional - Test helpers for LiveData
+    testImplementation "androidx.arch.core:core-testing:$arch_version"
+
+    // for room
+    implementation 'android.arch.lifecycle:extensions:1.0.0';
+    implementation 'android.arch.persistence.room:runtime:1.0.0';
+    annotationProcessor 'android.arch.lifecycle:compiler:1.0.0';
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0';
+
+
 
 
 }
